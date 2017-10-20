@@ -37,8 +37,8 @@ links.
 | Oregon Landslide Probability Map | [ Oregon Landslide Probability raster file](http://web.engr.oregonstate.edu/~gillinsd/O-Help/) |
 
 
-![Oregon Transportation Network](https://github.com/Shangjia-Dong/Web_Mapping/blob/master/Post_disaster_network_accessibility_map/img/oregonTransportationNetwork.jpg)
+![Oregon Transportation Network](/img/oregonTransportationNetwork.jpg)
 
-![Oregon Landslide Probability Map](https://github.com/Shangjia-Dong/Web_Mapping/blob/master/Post_disaster_network_accessibility_map/img/oregonLandSlideProb.png) 
+![Oregon Landslide Probability Map](/img/oregonLandSlideProb.png) 
 
 
