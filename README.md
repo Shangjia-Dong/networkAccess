@@ -44,5 +44,17 @@ links.
 
 ![main page](/img/mainPage.jpg)
 
-> 
+> This page is the main page of the website. It contains the menu and project description.
+
+![Project background](/img/page2.jpg)
+
+> This page is created to show the past two phase's work on this project. 
+
+![Interactive Map](/img/page3.jpg)
+
+> This page displays the Isochrone of travel time of the network. Different scenarios can be selected, and then a final Isochrone map will be rendered.
+
+![Team](/img/page4.jpg)
+
+> This page gives an introduction on the project team members. 
 
