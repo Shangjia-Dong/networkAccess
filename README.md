@@ -36,9 +36,13 @@ links.
 | Oregon Transportation Network | [Oregon Transportation GIS shapefile](http://spatialdata.oregonexplorer.info/geoportal/details;id=a3f15e64538a43ad9fea7f14dce4075b) |
 | Oregon Landslide Probability Map | [ Oregon Landslide Probability raster file](http://web.engr.oregonstate.edu/~gillinsd/O-Help/) |
 
+![Oregon Transportation Network](/img/oregonTransportationNetwork.jpg)
 
-![Oregon Transportation Network](https://github.com/Shangjia-Dong/Web_Mapping/blob/master/Post_disaster_network_accessibility_map/img/oregonTransportationNetwork.jpg)
+![Oregon Landslide Probability Map](/img/oregonLandSlideProb.png) 
 
-![Oregon Landslide Probability Map](https://github.com/Shangjia-Dong/Web_Mapping/blob/master/Post_disaster_network_accessibility_map/img/oregonLandSlideProb.png) 
+## Interface Sketch
 
+![main page](/img/mainPage.jpg)
+
+> 
 
