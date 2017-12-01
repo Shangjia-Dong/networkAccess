@@ -1,6 +1,6 @@
 ## Post-Disaster Transportation Network Accessibility 
 
-![web interface](./img/webInterface.png)
+![web interface](./img/webInterface.PNG)
 
 > The web page can be found [here](https://shangjiadong.github.io/netAcce/).
 
