@@ -1,60 +1,36 @@
-# Post-disaster Network Accessibility Map
+## Post-Disaster Transportation Network Accessibility 
 
-Natural hazards like earthquake, will lead to the destruction of the network. 
-It will also trigger the occurrence of other hazards, i.e. land slide, liquefaction etc. 
-This will severely affect the travel time on the network. Therefore, be able to estimate 
-the travel time on the network is critical to the post-disaster recovery. 
+![web interface](./img/webInterface.png)
 
-## Objective
+> The web page can be found [here](https://shangjiadong.github.io/netAcce/).
 
-This project aims to develop a web GIS tool that visualizes the travel time under different network 
-failure scenarios. 
+### Introduction
 
-## Scenarios 
-### Worst Case
+Pacific Northwest region is highly prone to a M9 Cascadia Subduction Zone earthquake.  This poses a great threat on the network’s functionality. The accessibility to critical facility and mobility on the network is of our concern. This project will collaborate with [O-HELP](ohelp.oregonstate.edu) and incorporate different hazard probabilities and their potential impact on transportation network in order to investigate the accessibility and mobility after the disaster. The project is part of the [Cascadia Lifeline Program (CLiP)](http://cascadia.oregonstate.edu/) at Oregon State University. 
 
-I have travel time calculated for different scenarios on Portland Network. I will need a base map, 
-and GIS shapefile layer with time attributes visualized on the map. There will be a dropdown list 
-to select the scenario, and legend to show the categories of the time.
+### Objective 
+
+The accessibility to critical facilities such as hospital, fire station,  restoration warehouse etc. are essential for post-disaster recovery, without which will result in a catastrophe. An earthquake can induce landslide or liquefaction, which will lead to potential failure of the roadway, and further paralyze the traffic. This project aims to develop a framework to analyze the accessibility on transportation network under different scales of network disruption. First we create a model in VISSUM to approximate the real-life traffic scenario. Under different disruptions, the link capacity will be reduced to simulate the disastrous effect on transportation network. Here, travel time is calculated to represent the accessibility on the network. After the simulation, the travel time both on links and from zone to zone will be extracted and visualized with web application. 
+
+### Web Architecture 
+
+The website can be divided into five sections: homepage, about the project, map services, past projects portfolio, and contact information. 
+
+Homepage set the tune of the visualization. It gives a short clip on past phases of the project, and provides a quick link to the detailed information. It also briefly illustrates the background of the project, provides a link to the program, and acknowledges the sponsors of the project. 
+
+About page gives a more detailed background description of the project. Also, it introduces the team members, and lists the sponsors. 
+
+Map services is the main function of the this web application. It contains two maps: 2D map and 3D map. 
+
+![2D map](./img/map2d.PNG)
+
+2D map visualize the travel time from a bird view. The map shows the travel time from each zone to the Portland International Airport. Different colors represent the different levels of travel time. I chose to use a bivariate color ramp. Because green normally stands for the uncongested traffic, and red indicates the high volume. Therefore, using green for the low travel time, and red for high travel time is very intuitive. There is also interactive feature on the map. When the mouse hoover the state, the zone will be highlighted and the travel time will be showed in the legend panel. 
 
 
-### Best Case
 
-There will be several shapefiles and also different hazards probability shapefiles as the input. 
-I will use an open source package/algorithm to calculate the travel time on the network with the 
-conditional probability as the hazards layer indicates. 
 
-Even more, I hope the map can show some interactive features so I can create the arbitrary scenarios. 
-For examples, I hope I can hover on the transportation network, and select the links that need to be 
-destroyed. And then I can use the algorithm to calculate the travel time on the network without these 
-links. 
 
-## Data Resource
 
-| Layer |  Source |
-| ------------ | ------------- |
-| Oregon Transportation Network | [Oregon Transportation GIS shapefile](http://spatialdata.oregonexplorer.info/geoportal/details;id=a3f15e64538a43ad9fea7f14dce4075b) |
-| Oregon Landslide Probability Map | [ Oregon Landslide Probability raster file](http://web.engr.oregonstate.edu/~gillinsd/O-Help/) |
 
-![Oregon Transportation Network](/img/oregonTransportationNetwork.jpg)
 
-![Oregon Landslide Probability Map](/img/oregonLandSlideProb.png) 
-
-## Interface Sketch
-
-![main page](/img/mainPage.jpg)
-
-> This page is the main page of the website. It contains the menu and project description.
-
-![Project background](/img/page2.jpg)
-
-> This page is created to show the past two phase's work on this project. 
-
-![Interactive Map](/img/page3.jpg)
-
-> This page displays the Isochrone of travel time of the network. Different scenarios can be selected, and then a final Isochrone map will be rendered.
-
-![Team](/img/page4.jpg)
-
-> This page gives an introduction on the project team members. 
 
