@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetorkAccessibility</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.4/chroma.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>NetorkAccessibility</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="assets/favicon/earthquake2.png" type="image/x-icon">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        /*full screen the map*/
+        html { height:100%;}
+        body {
+            height:100%;
+            padding: 0;
+            margin: 0;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        .info  {
+            position: fixed;
+            top: 10%;
+            right: 5%;
+            z-index: 10000;
+            font-size: 16px;
+            margin: 0 0 5px;
+            color: #777777;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            opacity: 0.8;
+        }
+
+        /*legend panel*/
+        .legend {
+            z-index: 1000;
+            position: absolute;
+            left: 10px;
+            /*right: 20px;*/
+            bottom: 20px;
+            padding: 6px 8px;
+            font: 14px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            opacity: 0.8;
+        }
+        .legend i {
+            width: 18px;
+            height: 16px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+        .menu {
+            z-index: 1000;
+            position: absolute;
+            left: 10px;
+            /*right: 20px;*/
+            top: 100px;
+            padding: 6px 8px;
+            font: 14px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {display:none;}
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 80px;
+            left: 10px;
+            /*right: 0;*/
+            /*bottom: 0;*/
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+
+</head>
+
+<div class="legend">
+    <h4> Travel Time to Portland International Airport </h4>
+    <p><b> Based on Evening Peak Hour Traffic Volume(2013) </b></p><br/>
+    <!--<i style="background: #b10026"></i> <p> 90min+ </p>-->
+    <!--<i style="background: #e31a1c"></i> <p> 60min to 90min </p>-->
+    <!--<i style="background: #fc4e2a"></i> <p> 45min to 60min </p>-->
+    <!--<i style="background: #fd8d3c"></i> <p> 30min to 45min </p>-->
+    <!--<i style="background: #feb24c"></i> <p> 15min to 30 </p>-->
+    <!--<i style="background: #fed976"></i> <p> 5min to 15min </p>-->
+    <!--<i style="background: #ffffb2"></i> <p> 0 to 5min </p><br/>-->
+    <b><div class='update'>Please hover over a state</div></b><br/>
+    <i style="background: #d73027"></i> <p> 75min+ </p>
+    <i style="background: #fc8d59"></i> <p> 60min to 75min </p>
+    <i style="background: #fee08b"></i> <p> 45min to 60min </p>
+    <i style="background: #ffffbf"></i> <p> 30min to 45min </p>
+    <i style="background: #d9ef8b"></i> <p> 15min to 30 </p>
+    <i style="background: #91cf60"></i> <p> 5min to 15min </p>
+    <i style="background: #1a9850"></i> <p> 0 to 5min </p><br/>
+    <!--<p> This 3D thematic map shows the the travel time from every zone to Portland International Airport in an evening peak hour in 2013. The data is generated through the VISSUM based on the model framework provided by Portland Metro. </p><br/>-->
+    <!--<p> Virtual globe Lib: cesium.js | BaseMap: Mapbox | Travel Time: Shangjia Dong </p>-->
+    <p> Author: <a href="people.oregonstate.edu/~dongs">Shangjia Dong </a>| Ph.D Candidate</p>
+    <p>Oregon State University</p>
+    <p> Acknowledgement: Haizhong Wang, Bo Zhao </p>
+</div>
+
+<!--<div class="menu">-->
+    <!--&lt;!&ndash;<h4>Nesting Button Groups</h4>&ndash;&gt;-->
+    <!--&lt;!&ndash;<p>Nest button groups to create drop down menus:</p>&ndash;&gt;-->
+    <!--<div class="btn-group">-->
+        <!--<div class="btn-group">-->
+            <!--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">-->
+                <!--Earthquake Magnitude <span class="caret"></span></button>-->
+            <!--<ul class="dropdown-menu" role="menu">-->
+                <!--<li><a href="#">M9.0</a></li>-->
+                <!--<li><a href="#">M8.7</a></li>-->
+                <!--<li><a href="#">M8.4</a></li>-->
+                <!--<li><a href="#">M8.1</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+<body>
+<label class="switch">
+    <input type="checkbox">
+    <span class="slider round"></span>
+</label>
+<!--add a Bootstrap navbar-->
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="img/earthquake2.png" class="align-top" height="25px" align="left"> &nbsp; Transportation Network Accessibility
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li>
+                    <a href="about.html">About</a>
+                </li>
+                <!--<li>-->
+                <!--<a href="services.html">Map</a>-->
+                <!--</li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Map<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="2dmap.html">Map - 2D</a>
+                        </li>
+                        <li>
+                            <a href="3dmap.html">Map - 3D</a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Portfolio<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="assets/Final_Report_Lifeline.pdf" target="_blank">Phase 1</a>
+                        </li>
+                        <li>
+                            <a href="https://www.researchgate.net/publication/319494030_Post-Disaster_Mobility_in_Disrupted_Transportation_Network_Case_Study_of_Portland_Oregon" target="_blank">Phase 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Phase 3 - Developing</a>
+                        </li>
+                        <!--<li>-->
+                        <!--<a href="portfolio-4-col.html">4 Column Portfolio</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                        <!--<a href="portfolio-item.html">Single Portfolio Item</a>-->
+                        <!--</li>-->
+                    </ul>
+                </li>
+                <li>
+                    <a href="contact.html">Contact</a>
+                </li>
+
+
+                <li class = 'button'>
+                    <dt>
+                        <!--facebook icon-->
+                        <a class="fa fa-facebook-square btn fa-2x"
+                           href="https://www.facebook.com/sharer/sharer.php?u=https%3A//shangjiadong.github.io/NetAcce/"
+                           target="_blank"></a>
+                    </dt>
+                </li>
+                <li class = 'button'>
+                    <dt>
+                        <!--facebook icon-->
+                        <a class="fa fa-github btn fa-2x" href="https://github.com/shangjiadong/NetAcce"
+                           target="_blank"></a>
+                    </dt>
+                </li>
+
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>-->
+                <!--<ul class="dropdown-menu">-->
+                <!--<li>-->
+                <!--<a href="blog-home-1.html">Blog Home 1</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="blog-home-2.html">Blog Home 2</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="blog-post.html">Blog Post</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</li>-->
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Pages <b class="caret"></b></a>-->
+                <!--<ul class="dropdown-menu">-->
+                <!--<li>-->
+                <!--<a href="full-width.html">Full Width Page</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="sidebar.html">Sidebar Page</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="faq.html">FAQ</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="404.html">404</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="pricing.html">Pricing Table</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</li>-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!-- Our web map and content will go here -->
+<div id="map" style=""></div>
+<div id="credits">
+    <p> Fall 2017 | Geovisualization: Web Mapping &copy; Shangjia Dong, Oregon State University</p>
+</div>
+
+<!--<div class='info'><h1>Transportation Network Accessibility</h1><div class='update'>Hover over a state</div></div>-->
+
+
+<script>
+
+    var map = L.map("map", {zoomControl: false}).setView([45.405755, -123.117511], 9); // deactivate the zoomControl
+    // construct a base map in light color.md.
+    L.tileLayer('https://api.mapbox.com/styles/v1/shangjia/cj9ohyonk4bnf2rp9lu9pjegl/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2hhbmdqaWEiLCJhIjoiY2o4eGYybHVtMjFpMTJ3cDhkNTlsNG1qeiJ9.eOP2kq4hzAJaTMg4Rqg5yA',
+        {
+            detectRetina: true
+        }).addTo(map);
+
+    var grades = [0, 300, 900, 1800, 2700, 3600, 4500, 5400];
+//    var grades = [5400, 3600, 2700, 1800, 900, 300, 0];
+//    var colors = chroma.scale('RdYlGn').colors(grades.length);
+    var colors = ['#1a9850', '#91cf60','#d9ef8b', '#ffffbf', '#fee08b', '#fc8d59', '#d73027'];
+
+    //     get the color based on the class which the input value falls in.
+    function getColor(d) {
+        for (var i = 0; i < grades.length - 1; i++) {
+            if ( d > grades[i] && d < grades[i+1] ) return colors[i];
+        }
+        if (d > grades[grades.length - 1]) return colors[grades.length];
+    }
+//    function setColor(time) {
+//        return time > 5400 ? '#d73027' :
+//            time > 3600 ? '#fc8d59' :
+//                time > 2700 ? '#fee08b' :
+//                    time > 1800 ? '#ffffbf' :
+//                        time > 900 ? '#d9ef8b' :
+//                            time > 300 ? '#91cf60' :
+//                                '#1a9850';
+//    }
+
+    function style(feature) {
+        return {
+            fillColor: getColor(feature.properties.Travel_Tim),
+            weight: 1,
+            opacity: 0.5,
+            color: 'grey',
+//            dashArray: '1',
+            fillOpacity: 0.8
+        };
+    }
+
+//    var time = L.geoJson.ajax("assets/basefile.geojson", {
+//        style: style
+//    }).addTo(map);
+
+    function highlightFeature(e) {
+        // e indicates the current event
+        var layer = e.target; //the target capture the object which the event associates with
+        layer.setStyle({
+            weight: 8,
+            opacity: 0.8,
+            color: '#e3e3e3',
+            fillColor: '#1ce3d7',
+            fillOpacity: 0.5
+        });
+        // bring the layer to the front.
+        layer.bringToFront();
+        // select the update class, and update the contet with the input value.
+//        $(".update").html('<b>' + ' Travel Time To PDX' + '</b>   ' + layer.feature.properties.ISOCTIME_2 );
+        $(".update").html('<b>' + ' Travel Time To PDX From Selected Zone' + '</b>   ' + layer.feature.properties.ISOCTIME_2 );
+    }
+    //reset the hightlighted feature when the mouse is out of its region.
+    function resetHighlight(e) {
+        time.resetStyle(e.target);
+        $(".update").html("Hover over a state");
+    }
+    // zoom to the highlighted feature when the mouse is clicking onto it.
+    function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+    }
+
+    //add these event the layer obejct.
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            click: zoomToFeature,
+            mouseout: resetHighlight
+        });
+    }
+
+    var time = L.geoJson.ajax("assets/basefile.geojson", {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
+
+    //create the legend
+//    var labels = [];
+//    for (var i = 0; i < grades.length - 1; i++) {
+//        labels.push('<i style="background:' + colors[i] + '"></i> ' + grades[i] + ' - ' + grades[i + 1]);
+//    }
+//    labels.push('<i style="background:' + colors[grades.length - 1] + '"></i> ' + grades[grades.length - 1] + ' +');
+//    $(".legend").html(labels.join('<br>'));
+
+
+
+</script>
+</body>
+</html>
