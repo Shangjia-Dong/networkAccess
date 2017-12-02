@@ -65,11 +65,11 @@ I started the project by firstly thinking about the main goal I want to achieve 
 
 ### Resource
 
-####Data
+#### Data
 
 The data used in this project is from my research. The travel time is simulate through VISUM. The VISUM base model is provided by Portland Metro, Oregon. 
 
-####Toolkit
+#### Toolkit
 
 - **Library**: Leaflet, Bootstrap, Font-awesome, Jquery, Chroma, Cesium 
 - **Web Services**:  GitHub, Mapbox etc. 
